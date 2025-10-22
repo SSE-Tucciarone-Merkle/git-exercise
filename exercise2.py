@@ -18,6 +18,10 @@ class Point2D:
     #    self._coordinates += other
     #    return self
 
+    def __sub__(self, other: Vector) -> Vector:
+        assert len(self._coordinates) == len(other._coordinates)
+        return Vector([self[i] - other[i] for i in range(len(self._coordinates))])
+
 def test_point_construction() -> None:
     point = Point2D(1.0, 42.0)
     assert point.x == 1.0
