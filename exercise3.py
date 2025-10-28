@@ -25,11 +25,14 @@ class Rectangle:
     def upper_right(self) -> Point2D:
         return self.corner(3)
 
+    def is_in_interval(self, lower: float, upper: float, x: float, tolerance: float = 0.0) -> bool:
+        assert tolerance >= 0.0, "Tolernance should be non negative."
+        return lower - tolerance <= x and x <= upper + tolerance
+    
     def contains(self, point: Point2D, tolerance: float = 0.0) -> bool:
         ll_px = point.x - self._lower_left.x
         ll_py = point.y - self._lower_left.y
-        return ll_px >= -tolerance and ll_px <= (self._dx + tolerance)\
-            and ll_py >= -tolerance and ll_py <= (self._dy + tolerance)
+        return self.is_in_interval(0, self._dx, ll_px, tolerance) and self.is_in_interval(0, self._dy, ll_py, tolerance)
 
     def _is_idx_on_upper_edge(self, i: int) -> bool:
         return i in [2, 3]
@@ -37,7 +40,6 @@ class Rectangle:
     def _is_idx_on_right_edge(self, i: int) -> bool:
         return i in [1, 3]
 
-    # def is_in_interval(...) -> bool: # Task A
 
 
 def test_rectangle_contains_exact() -> None:
